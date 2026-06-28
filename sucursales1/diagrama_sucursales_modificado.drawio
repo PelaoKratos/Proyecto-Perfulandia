@@ -1,0 +1,61 @@
+<mxfile host="app.diagrams.net" modified="2026-06-20T00:00:00.000Z" agent="Codex" version="24.7.17" type="device">
+  <diagram id="sucursales-diagrama-clases" name="Diagrama Sucursales">
+    <mxGraphModel dx="1186" dy="768" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title" value="Microservicio Sucursales - Diagrama de Clases" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1;fontSize=18;" vertex="1" parent="1">
+          <mxGeometry x="310" y="45" width="550" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="Sucursal" value="&lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; width=&quot;100%&quot;&gt;&lt;tr&gt;&lt;td align=&quot;center&quot;&gt;&lt;b&gt;Sucursal&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;border-top:1px solid #6c8ebf;padding:8px 10px;&quot; align=&quot;left&quot;&gt;- idSucursal: int&lt;br&gt;- idHorario: int&lt;br&gt;- nombre: String&lt;br&gt;- direccion: String&lt;br&gt;- telefono: String&lt;br&gt;- ciudad: String&lt;br&gt;- estado: String&lt;br&gt;- fechaCreacion: Date&lt;br&gt;- asignaciones: List&amp;lt;AsignacionPersonal&amp;gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;border-top:1px solid #6c8ebf;padding:8px 10px;&quot; align=&quot;left&quot;&gt;+ crearSucursal(): void&lt;br&gt;+ modificarSucursal(): void&lt;br&gt;+ eliminarSucursal(): void&lt;br&gt;+ consultarSucursal(): void&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;verticalAlign=top;spacing=0;overflow=fill;" vertex="1" parent="1">
+          <mxGeometry x="120" y="150" width="300" height="285" as="geometry"/>
+        </mxCell>
+        <mxCell id="HorarioSucursal" value="&lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; width=&quot;100%&quot;&gt;&lt;tr&gt;&lt;td align=&quot;center&quot;&gt;&lt;b&gt;HorarioSucursal&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;border-top:1px solid #d6b656;padding:8px 10px;&quot; align=&quot;left&quot;&gt;- idHorario: int&lt;br&gt;- diaSemana: String&lt;br&gt;- horaApertura: Time&lt;br&gt;- horaCierre: Time&lt;br&gt;- activo: boolean&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;border-top:1px solid #d6b656;padding:8px 10px;&quot; align=&quot;left&quot;&gt;+ configurarHorario(): void&lt;br&gt;+ modificarHorario(): void&lt;br&gt;+ validarHorario(): boolean&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;align=center;verticalAlign=top;spacing=0;overflow=fill;" vertex="1" parent="1">
+          <mxGeometry x="535" y="150" width="275" height="215" as="geometry"/>
+        </mxCell>
+        <mxCell id="Empleado" value="&lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; width=&quot;100%&quot;&gt;&lt;tr&gt;&lt;td align=&quot;center&quot;&gt;&lt;b&gt;Empleado&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;border-top:1px solid #b85450;padding:8px 10px;&quot; align=&quot;left&quot;&gt;- idEmpleado: int&lt;br&gt;- rut: String&lt;br&gt;- nombre: String&lt;br&gt;- email: String&lt;br&gt;- telefono: String&lt;br&gt;- estado: String&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;border-top:1px solid #b85450;padding:8px 10px;&quot; align=&quot;left&quot;&gt;+ consultarDatos(): void&lt;br&gt;+ activar(): void&lt;br&gt;+ desactivar(): void&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;verticalAlign=top;spacing=0;overflow=fill;" vertex="1" parent="1">
+          <mxGeometry x="120" y="525" width="300" height="215" as="geometry"/>
+        </mxCell>
+        <mxCell id="AsignacionPersonal" value="&lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; width=&quot;100%&quot;&gt;&lt;tr&gt;&lt;td align=&quot;center&quot;&gt;&lt;b&gt;AsignacionPersonal&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;border-top:1px solid #82b366;padding:8px 10px;&quot; align=&quot;left&quot;&gt;- idAsignacion: int&lt;br&gt;- idSucursal: int&lt;br&gt;- idEmpleado: int&lt;br&gt;- idHorario: int&lt;br&gt;- cargo: String&lt;br&gt;- fechaInicio: Date&lt;br&gt;- fechaFin: Date&lt;br&gt;- estado: String&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;border-top:1px solid #82b366;padding:8px 10px;&quot; align=&quot;left&quot;&gt;+ asignarPersonal(): void&lt;br&gt;+ cambiarCargo(): void&lt;br&gt;+ finalizarAsignacion(): void&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;verticalAlign=top;spacing=0;overflow=fill;" vertex="1" parent="1">
+          <mxGeometry x="535" y="480" width="300" height="260" as="geometry"/>
+        </mxCell>
+        <mxCell id="edgeSucursalHorario" value="" style="endArrow=none;html=1;rounded=0;strokeWidth=2;endFill=0;" edge="1" parent="1" source="Sucursal" target="HorarioSucursal">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="multSucursalHorarioSucursal" value="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="430" y="245" width="30" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="multSucursalHorarioHorario" value="1..*" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="485" y="245" width="45" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="edgeSucursalAsignacion" value="" style="endArrow=none;html=1;rounded=0;strokeWidth=2;endFill=0;" edge="1" parent="1" source="Sucursal" target="AsignacionPersonal">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="multSucursalAsignacionSucursal" value="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="430" y="430" width="30" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="multSucursalAsignacionAsignacion" value="0..*" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="500" y="455" width="45" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="edgeEmpleadoAsignacion" value="" style="endArrow=none;html=1;rounded=0;strokeWidth=2;endFill=0;" edge="1" parent="1" source="Empleado" target="AsignacionPersonal">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="multEmpleadoAsignacionEmpleado" value="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="430" y="625" width="30" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="multEmpleadoAsignacionAsignacion" value="0..*" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="485" y="625" width="45" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="edgeHorarioAsignacion" value="" style="endArrow=none;html=1;rounded=0;strokeWidth=2;endFill=0;" edge="1" parent="1" source="HorarioSucursal" target="AsignacionPersonal">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="multHorarioAsignacionHorario" value="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="665" y="380" width="30" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="multHorarioAsignacionAsignacion" value="0..*" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="675" y="455" width="45" height="20" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

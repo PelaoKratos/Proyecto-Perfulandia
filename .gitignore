@@ -1,0 +1,9 @@
+target/
+.codex/
+.agents/
+.idea/
+.vscode/.ropeproject/
+*.class
+*.log
+*.tmp
+.tmp*/

@@ -1,0 +1,43 @@
+<mxfile host="app.diagrams.net" modified="2026-06-20T00:00:00.000Z" agent="Codex" version="24.7.17" type="device">
+  <diagram id="usuario-diagrama-clases" name="Diagrama Usuario">
+    <mxGraphModel dx="1186" dy="768" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title" value="Diagrama de Clases - Microservicio Usuarios" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1;fontSize=18;" vertex="1" parent="1">
+          <mxGeometry x="333" y="48" width="510" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="Usuario" value="&lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; width=&quot;100%&quot;&gt;&lt;tr&gt;&lt;td align=&quot;center&quot;&gt;&lt;b&gt;Usuario&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;border-top:1px solid #6c8ebf;padding:8px 10px;&quot; align=&quot;left&quot;&gt;- idUsuario: int&lt;br&gt;- nombre: String&lt;br&gt;- email: String&lt;br&gt;- contrasena: String&lt;br&gt;- estado: String&lt;br&gt;- fechaCreacion: Date&lt;br&gt;- rol: Rol&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;border-top:1px solid #6c8ebf;padding:8px 10px;&quot; align=&quot;left&quot;&gt;+ iniciarSesion(): boolean&lt;br&gt;+ actualizarDatos(): void&lt;br&gt;+ desactivar(): void&lt;br&gt;+ recuperarContrasena(): void&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;verticalAlign=top;spacing=0;overflow=fill;" vertex="1" parent="1">
+          <mxGeometry x="120" y="165" width="275" height="245" as="geometry"/>
+        </mxCell>
+        <mxCell id="Rol" value="&lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; width=&quot;100%&quot;&gt;&lt;tr&gt;&lt;td align=&quot;center&quot;&gt;&lt;b&gt;Rol&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;border-top:1px solid #82b366;padding:8px 10px;&quot; align=&quot;left&quot;&gt;- idRol: int&lt;br&gt;- nombre: String&lt;br&gt;- descripcion: String&lt;br&gt;- usuarios: List&amp;lt;Usuario&amp;gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;border-top:1px solid #82b366;padding:8px 10px;&quot; align=&quot;left&quot;&gt;+ crearRol(): void&lt;br&gt;+ modificarRol(): void&lt;br&gt;+ eliminarRol(): void&lt;br&gt;+ asignarPermiso(permiso): void&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;verticalAlign=top;spacing=0;overflow=fill;" vertex="1" parent="1">
+          <mxGeometry x="500" y="165" width="275" height="225" as="geometry"/>
+        </mxCell>
+        <mxCell id="Permiso" value="&lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; width=&quot;100%&quot;&gt;&lt;tr&gt;&lt;td align=&quot;center&quot;&gt;&lt;b&gt;Permiso&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;border-top:1px solid #d6b656;padding:8px 10px;&quot; align=&quot;left&quot;&gt;- idPermiso: int&lt;br&gt;- modulo: String&lt;br&gt;- accion: String&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;border-top:1px solid #d6b656;padding:8px 10px;&quot; align=&quot;left&quot;&gt;+ validarAcceso(): boolean&lt;br&gt;+ crearPermiso(): void&lt;br&gt;+ modificarPermiso(): void&lt;br&gt;+ eliminarPermiso(): void&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;align=center;verticalAlign=top;spacing=0;overflow=fill;" vertex="1" parent="1">
+          <mxGeometry x="875" y="180" width="255" height="195" as="geometry"/>
+        </mxCell>
+        <mxCell id="Sesion" value="&lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; width=&quot;100%&quot;&gt;&lt;tr&gt;&lt;td align=&quot;center&quot;&gt;&lt;b&gt;Sesion&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;border-top:1px solid #b85450;padding:8px 10px;&quot; align=&quot;left&quot;&gt;- idSesion: int&lt;br&gt;- token: String&lt;br&gt;- fechaInicio: DateTime&lt;br&gt;- fechaExpiracion: DateTime&lt;br&gt;- activa: boolean&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;border-top:1px solid #b85450;padding:8px 10px;&quot; align=&quot;left&quot;&gt;+ generarToken(): String&lt;br&gt;+ cerrarSesion(): void&lt;br&gt;+ validarSesion(): boolean&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;verticalAlign=top;spacing=0;overflow=fill;" vertex="1" parent="1">
+          <mxGeometry x="445" y="505" width="275" height="205" as="geometry"/>
+        </mxCell>
+        <mxCell id="edgeUsuarioRol" value="" style="endArrow=none;html=1;rounded=0;strokeWidth=2;endFill=0;" edge="1" parent="1" source="Usuario" target="Rol">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="usuarioRolMultUsuario" value="0..*" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="407" y="260" width="45" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="usuarioRolMultRol" value="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="466" y="260" width="30" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="edgeRolPermiso" value="" style="endArrow=none;html=1;rounded=0;strokeWidth=2;endFill=0;" edge="1" parent="1" source="Rol" target="Permiso">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="rolPermisoMultRol" value="1..*" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="786" y="260" width="45" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="rolPermisoMultPermiso" value="1..*" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="831" y="260" width="45" height="20" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,28 @@
+<mxfile host="app.diagrams.net" modified="2026-06-21T00:00:00.000Z" agent="Codex" version="24.7.17" type="device">
+  <diagram id="soporte-diagrama-clases" name="Diagrama Soporte">
+    <mxGraphModel dx="900" dy="640" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title" value="Diagrama de Clases - Microservicio Soporte" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1;fontColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="150" y="30" width="520" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="TicketSoporte" value="&lt;b&gt;TicketSoporte&lt;/b&gt;&lt;br&gt;&lt;hr&gt;- idTicket: Long&lt;br&gt;- idCliente: Long&lt;br&gt;- idCategoria: Long&lt;br&gt;- idUsuarioAsignado: Long&lt;br&gt;- asunto: String&lt;br&gt;- descripcion: String&lt;br&gt;- canal: String&lt;br&gt;- prioridad: String&lt;br&gt;- estado: String&lt;br&gt;- fechaCreacion: DateTime&lt;br&gt;- fechaCierre: DateTime&lt;br&gt;&lt;hr&gt;+ crearTicket()&lt;br&gt;+ cerrarTicket()&lt;br&gt;+ cambiarEstado()&lt;br&gt;+ asignarPrioridad()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1f2f46;strokeColor=#6c8ebf;fontColor=#ffffff;fontSize=12;align=center;verticalAlign=top;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="330" y="90" width="280" height="300" as="geometry"/>
+        </mxCell>
+        <mxCell id="CategoriaSoporte" value="&lt;b&gt;CategoriaSoporte&lt;/b&gt;&lt;br&gt;&lt;hr&gt;- idCategoria: Long&lt;br&gt;- nombre: String&lt;br&gt;- descripcion: String&lt;br&gt;- estado: String&lt;br&gt;&lt;hr&gt;+ crearCategoria()&lt;br&gt;+ modificarCategoria()&lt;br&gt;+ activarCategoria()&lt;br&gt;+ desactivarCategoria()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3a2c00;strokeColor=#d6b656;fontColor=#ffffff;fontSize=12;align=center;verticalAlign=top;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="60" y="390" width="250" height="220" as="geometry"/>
+        </mxCell>
+        <mxCell id="RespuestaTicket" value="&lt;b&gt;RespuestaTicket&lt;/b&gt;&lt;br&gt;&lt;hr&gt;- idRespuesta: Long&lt;br&gt;- idTicket: Long&lt;br&gt;- idUsuario: Long&lt;br&gt;- mensaje: String&lt;br&gt;- fechaRespuesta: DateTime&lt;br&gt;- tipoRespuesta: String&lt;br&gt;&lt;hr&gt;+ registrarRespuesta()&lt;br&gt;+ modificarRespuesta()&lt;br&gt;+ eliminarRespuesta()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3e2848;strokeColor=#9673a6;fontColor=#ffffff;fontSize=12;align=center;verticalAlign=top;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="380" y="450" width="260" height="230" as="geometry"/>
+        </mxCell>
+        <mxCell id="edgeCategoriaTicket" value="" style="endArrow=none;html=1;rounded=0;strokeColor=#ffffff;strokeWidth=2;" edge="1" parent="1" source="CategoriaSoporte" target="TicketSoporte">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edgeTicketRespuesta" value="" style="endArrow=none;html=1;rounded=0;strokeColor=#ffffff;strokeWidth=2;" edge="1" parent="1" source="TicketSoporte" target="RespuestaTicket">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
