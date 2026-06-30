@@ -18,18 +18,18 @@ El acceso unificado a las APIs se realiza mediante API Gateway en `localhost:808
 | Microservicio | Carpeta | Puerto | Base de datos | Swagger |
 | --- | --- | ---: | --- | --- |
 | Gateway | `getawayspring-master` | 8080 | No aplica | No aplica |
-| Usuario | `usuario/usuario` | 8081 | `usuario_bd` | `http://localhost:8081/swagger-ui.html` |
-| Cliente | `cliente` | 8082 | `cliente_bd` | `http://localhost:8082/swagger-ui.html` |
-| Sucursales | `sucursales1` | 8083 | `sucursal_bd` | `http://localhost:8083/swagger-ui.html` |
-| Inventario | `perfume` | 8084 | `inventario_bd` | `http://localhost:8084/swagger-ui.html` |
-| Abastecimiento | `abastecimiento` | 8085 | `abastecimiento_bd` | `http://localhost:8085/swagger-ui.html` |
-| Pedido | `pedido` | 8086 | `pedido_bd` | `http://localhost:8086/swagger-ui.html` |
-| Pago | `pago` | 8087 | `pago_bd` | `http://localhost:8087/swagger-ui.html` |
-| Ventas | `ventas` | 8088 | `venta_db` | `http://localhost:8088/swagger-ui.html` |
-| Despacho | `despacho` | 8089 | `despacho_bd` | `http://localhost:8089/swagger-ui.html` |
-| Soporte | `soporte` | 8090 | `soporte_bd` | `http://localhost:8090/swagger-ui.html` |
-| Reporte | `reporte` | 8091 | `reporte_bd` | `http://localhost:8091/swagger-ui.html` |
-| Monitoreo | `monitoreo/monitoreo` | 8092 | `monitoreo_bd` | `http://localhost:8092/swagger-ui.html` |
+| Usuario | `usuario/usuario` | 8081 | `usuario_bd` | `http://localhost:8081/swagger-ui/index.html` |
+| Cliente | `cliente` | 8082 | `cliente_bd` | `http://localhost:8082/swagger-ui/index.html` |
+| Sucursales | `sucursales1` | 8083 | `sucursal_bd` | `http://localhost:8083/swagger-ui/index.html` |
+| Inventario | `perfume` | 8084 | `inventario_bd` | `http://localhost:8084/swagger-ui/index.html` |
+| Abastecimiento | `abastecimiento` | 8085 | `abastecimiento_bd` | `http://localhost:8085/swagger-ui/index.html` |
+| Pedido | `pedido` | 8086 | `pedido_bd` | `http://localhost:8086/swagger-ui/index.html` |
+| Pago | `pago` | 8087 | `pago_bd` | `http://localhost:8087/swagger-ui/index.html` |
+| Ventas | `ventas` | 8088 | `venta_db` | `http://localhost:8088/swagger-ui/index.html` |
+| Despacho | `despacho` | 8089 | `despacho_bd` | `http://localhost:8089/swagger-ui/index.html` |
+| Soporte | `soporte` | 8090 | `soporte_bd` | `http://localhost:8090/swagger-ui/index.html` |
+| Reporte | `reporte` | 8091 | `reporte_bd` | `http://localhost:8091/swagger-ui/index.html` |
+| Monitoreo | `monitoreo/monitoreo` | 8092 | `monitoreo_bd` | `http://localhost:8092/swagger-ui/index.html` |
 
 La carpeta `perfume` cumple el rol de inventario del sistema.
 
@@ -108,13 +108,13 @@ Monitoreo consulta endpoints reales de cada microservicio. Si un servicio aparec
 Cada microservicio expone su documentacion Swagger en su propio puerto:
 
 ```text
-http://localhost:PUERTO/swagger-ui.html
+http://localhost:PUERTO/swagger-ui/index.html
 ```
 
 Ejemplo:
 
 ```text
-http://localhost:8087/swagger-ui.html
+http://localhost:8087/swagger-ui/index.html
 ```
 
 ## Pruebas
@@ -138,3 +138,12 @@ mvn test
 - El microservicio `perfume` representa inventario.
 - El proyecto se prueba localmente con MySQL y API Gateway.
 - El monitoreo valida disponibilidad guardando registros en `monitoreo_bd`.
+
+## Puntos rapidos para defensa
+
+- Patron CSR: cada microservicio separa controller, service, repository y model.
+- Comunicacion REST: pedido, pago, ventas, despacho, soporte, reporte y monitoreo consultan otros servicios con clientes HTTP.
+- Gateway: centraliza las rutas en `getawayspring-master/src/main/resources/application.yml`.
+- Pruebas: se ejecutan con `mvn test` o `mvn verify`; JaCoCo genera reportes de cobertura en `target/site/jacoco/index.html`.
+- Swagger: cada microservicio documenta sus endpoints en `/swagger-ui/index.html`.
+- Base de datos: cada servicio tiene su propia BD MySQL en `localhost:3307`.
