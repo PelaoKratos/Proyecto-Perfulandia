@@ -1,0 +1,396 @@
+RUTAS POST PARA INSERTAR DATOS EN POSTMAN - PERFULANDIA
+
+Usar en Postman:
+Content-Type: application/json
+Base Gateway: http://localhost:8080
+
+Si no usas Gateway, cambia 8080 por el puerto directo del microservicio.
+
+============================================================
+USUARIO
+============================================================
+
+POST http://localhost:8080/api/v1/roles
+
+{
+  "nombre": "VENDEDOR",
+  "descripcion": "Usuario encargado de registrar ventas"
+}
+
+POST http://localhost:8080/api/v1/permisos
+
+{
+  "modulo": "VENTAS",
+  "accion": "CREAR"
+}
+
+POST http://localhost:8080/api/v1/usuarios
+
+{
+  "nombreUsuario": "Carlos",
+  "apellidoUsuario": "Perez",
+  "correoUsuario": "carlos.perez@perfulandia.cl",
+  "contraseñaUsuario": "123456",
+  "idRol": 1,
+  "estado": "ACTIVO"
+}
+
+============================================================
+CLIENTE
+============================================================
+
+POST http://localhost:8080/api/v1/clientes
+
+{
+  "idUsuario": 10,
+  "rut": "12345678-9",
+  "nombre": "Cliente",
+  "apellido": "Prueba",
+  "correo": "cliente.prueba@perfulandia.cl",
+  "telefono": "+56912345678",
+  "estado": "ACTIVO",
+  "activo": true,
+  "direcciones": [
+    {
+      "calle": "Av. Siempre Viva 123",
+      "comuna": "Santiago",
+      "ciudad": "Santiago",
+      "region": "Metropolitana",
+      "principal": true
+    }
+  ]
+}
+
+============================================================
+SUCURSALES
+============================================================
+
+POST http://localhost:8080/api/v1/sucursales
+
+{
+  "nombre": "Sucursal Demo",
+  "direccion": "Av. Providencia 1000",
+  "telefono": "+56222223333",
+  "ciudad": "Santiago",
+  "estado": "ACTIVA",
+  "fechaCreacion": "2026-06-30"
+}
+
+============================================================
+INVENTARIO
+============================================================
+
+POST http://localhost:8080/api/v1/categorias-producto
+
+{
+  "nombre": "Perfumes Premium",
+  "descripcion": "Fragancias premium para venta online",
+  "estado": "ACTIVA"
+}
+
+POST http://localhost:8080/api/v1/productos
+
+{
+  "idCategoria": 1001,
+  "nombre": "Perfume Demo 100ml",
+  "descripcion": "Producto creado desde Postman",
+  "precio": 29990,
+  "estado": "ACTIVO"
+}
+
+POST http://localhost:8080/api/v1/inventarios
+
+{
+  "idProducto": 1001,
+  "idSucursal": 1001,
+  "stockActual": 50,
+  "stockMinimo": 10,
+  "stockMaximo": 100,
+  "ubicacion": "Bodega A1"
+}
+
+POST http://localhost:8080/api/v1/movimientos-inventario
+
+{
+  "idInventario": 1001,
+  "idUsuario": 1,
+  "tipoMovimiento": "ENTRADA",
+  "cantidad": 10,
+  "motivo": "Carga inicial desde Postman"
+}
+
+============================================================
+ABASTECIMIENTO
+============================================================
+
+POST http://localhost:8080/api/proveedores
+
+{
+  "rut": "76543210-1",
+  "nombre": "Proveedor Demo",
+  "correo": "proveedor@demo.cl",
+  "telefono": "+56223334444",
+  "direccion": "Av. Industrial 500",
+  "estado": "ACTIVO"
+}
+
+POST http://localhost:8080/api/ordenes-compra/proveedor/1
+
+{
+  "idSucursal": 1001,
+  "idUsuario": 1,
+  "fechaEstimada": "2026-07-05",
+  "estado": "CREADA",
+  "detalles": [
+    {
+      "idProducto": 1001,
+      "cantidad": 5,
+      "precioUnitario": 29990
+    }
+  ]
+}
+
+POST http://localhost:8080/api/recepciones/orden/1
+
+{
+  "idUsuario": 1,
+  "observacion": "Recepcion creada desde Postman",
+  "estado": "RECIBIDA"
+}
+
+============================================================
+PEDIDO
+============================================================
+
+POST http://localhost:8080/api/cupones
+
+{
+  "codigo": "DEMO10",
+  "tipoDescuento": "PORCENTAJE",
+  "valorDescuento": 10,
+  "montoMinimo": 10000,
+  "fechaInicio": "2026-06-30",
+  "fechaVencimiento": "2026-12-31",
+  "limiteUso": 100,
+  "usosActuales": 0,
+  "estado": "ACTIVO"
+}
+
+POST http://localhost:8080/api/carritos
+
+{
+  "idCliente": 1,
+  "estado": "ABIERTO"
+}
+
+POST http://localhost:8080/api/carritos/1/productos
+
+{
+  "idProducto": 1001,
+  "cantidad": 1,
+  "precioUnitario": 29990
+}
+
+POST http://localhost:8080/api/pedidos
+
+{
+  "idCliente": 1,
+  "idSucursal": 1001,
+  "idDireccion": 1,
+  "idPago": 1,
+  "subtotal": 29990,
+  "descuento": 0,
+  "total": 29990,
+  "estado": "CREADO",
+  "detalles": [
+    {
+      "idProducto": 1001,
+      "cantidad": 1,
+      "precioUnitario": 29990,
+      "descuento": 0,
+      "subtotal": 29990
+    }
+  ]
+}
+
+============================================================
+PAGO
+============================================================
+
+POST http://localhost:8080/api/v1/pagos
+
+{
+  "idVenta": 1,
+  "idCliente": 1,
+  "idEmpleado": 1,
+  "idMetodoPago": 1,
+  "monto": 29990,
+  "metodoPago": "TARJETA",
+  "estado": "PENDIENTE",
+  "codigoTransaccion": "TX-DEMO-001",
+  "mensaje": "Pago creado desde Postman"
+}
+
+============================================================
+VENTAS
+============================================================
+
+POST http://localhost:8080/api/v1/venta
+
+{
+  "fechaVenta": "2026-06-30",
+  "totalVenta": 29990,
+  "descuentoVenta": 0,
+  "estadoVenta": "PAGADA",
+  "idPerfume": 1001,
+  "idSucursal": 1001,
+  "cantidad": 1
+}
+
+============================================================
+DESPACHO
+============================================================
+
+POST http://localhost:8080/api/despachos
+
+{
+  "idPedido": 1001,
+  "idCliente": 1,
+  "idSucursal": 1001,
+  "direccionEntrega": "Av. Siempre Viva 123, Santiago",
+  "fechaEstimadaEntrega": "2026-07-02T15:00:00",
+  "estado": "CREADO",
+  "detalles": [
+    {
+      "idProducto": 1001,
+      "cantidad": 1,
+      "estado": "PENDIENTE"
+    }
+  ]
+}
+
+============================================================
+SOPORTE
+============================================================
+
+POST http://localhost:8080/api/v1/soporte/categorias
+
+{
+  "nombre": "Consulta general",
+  "descripcion": "Categoria creada desde Postman",
+  "estado": "ACTIVA"
+}
+
+POST http://localhost:8080/api/v1/soporte/tickets
+
+{
+  "idCliente": 1,
+  "idCategoria": 1,
+  "idUsuarioAsignado": 1,
+  "asunto": "Problema con pedido",
+  "descripcion": "Cliente solicita revision del pedido",
+  "canal": "WEB",
+  "prioridad": "MEDIA",
+  "estado": "ABIERTO"
+}
+
+POST http://localhost:8080/api/v1/soporte/tickets/1/respuestas
+
+{
+  "idUsuario": 1,
+  "mensaje": "Se revisara el caso durante el dia",
+  "tipoRespuesta": "INTERNA"
+}
+
+============================================================
+REPORTE
+============================================================
+
+POST http://localhost:8080/api/v1/reportes
+
+{
+  "titulo": "Reporte Demo",
+  "tipo": "VENTAS",
+  "periodoInicio": "2026-06-01",
+  "periodoFin": "2026-06-30",
+  "formato": "PDF",
+  "estado": "GENERADO",
+  "fechaReporte": "2026-06-30",
+  "razonReporte": "Defensa proyecto",
+  "descripcionReporte": "Reporte creado desde Postman",
+  "estadoReporte": "ACTIVO"
+}
+
+POST http://localhost:8080/api/v1/reportes/ventas
+
+{
+  "totalVentas": 29990,
+  "cantidadVentas": 1,
+  "periodo": "JUNIO-2026",
+  "idVenta": 1
+}
+
+POST http://localhost:8080/api/v1/reportes/inventario
+
+{
+  "totalProductos": 10,
+  "productosStockBajo": 1,
+  "totalMovimientos": 5,
+  "fechaCorte": "2026-06-30"
+}
+
+POST http://localhost:8080/api/v1/reportes/sucursal
+
+{
+  "idSucursal": 1001,
+  "nombreSucursal": "Sucursal Centro",
+  "ventasSucursal": 29990,
+  "rendimiento": 95.5
+}
+
+============================================================
+MONITOREO
+============================================================
+
+POST http://localhost:8080/api/registros
+
+{
+  "nombreServicio": "cliente",
+  "estadoServicio": "DISPONIBLE",
+  "tiempoRespuesta": 25.5,
+  "mensaje": "Registro creado desde Postman"
+}
+
+POST http://localhost:8080/api/alertas
+
+{
+  "idRegistro": 1,
+  "tipoAlerta": "RENDIMIENTO",
+  "nivelPrioridad": "MEDIA",
+  "mensaje": "Tiempo de respuesta elevado",
+  "estado": "ABIERTA"
+}
+
+POST http://localhost:8080/api/respaldos
+
+{
+  "idUsuario": 1,
+  "nombreServicio": "cliente",
+  "rutaArchivo": "C:/respaldos/cliente-demo.sql",
+  "tipoRespaldo": "MANUAL",
+  "estado": "CREADO"
+}
+
+============================================================
+RECOMENDACION PARA LA DEFENSA
+============================================================
+
+No mostrar todos los POST.
+Mostrar solo 2 o 3 seguros:
+
+1. Crear cliente.
+2. Crear producto o consultar inventario.
+3. Crear pedido.
+
+Luego hacer GET para demostrar que se inserto.
+
