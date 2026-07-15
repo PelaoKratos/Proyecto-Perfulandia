@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -27,6 +28,7 @@ import microservice.ventas.client.InventarioClient;
 import microservice.ventas.dto.DescuentoStockRequest;
 import microservice.ventas.dto.VentaDetalleResponse;
 import microservice.ventas.model.Venta;
+import microservice.ventas.model.VentaDetalle;
 import microservice.ventas.repository.VentaRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -73,6 +75,32 @@ class VentaServiceTest {
     }
 
     @Test
+    void crearVentaConVariosPerfumesDescuentaStockPorCadaDetalle() {
+        Venta venta = ventaValida();
+        venta.setIdPerfume(null);
+        venta.setCantidad(null);
+        venta.setDetalles(List.of(
+                new VentaDetalle(null, null, 10L, 2L),
+                new VentaDetalle(null, null, 11L, 1L)));
+        when(ventaRepository.save(venta)).thenReturn(venta);
+        ArgumentCaptor<DescuentoStockRequest> captor = ArgumentCaptor.forClass(DescuentoStockRequest.class);
+
+        Venta resultado = ventaService.crearVenta(venta);
+
+        assertSame(venta, resultado);
+        assertEquals(2, resultado.getDetalles().size());
+        assertEquals(10L, resultado.getIdPerfume());
+        assertEquals(2L, resultado.getCantidad());
+        verify(inventarioClient, times(2)).descontarStock(captor.capture());
+        List<DescuentoStockRequest> descuentos = captor.getAllValues();
+        assertEquals(10L, descuentos.get(0).getProductoId());
+        assertEquals(2, descuentos.get(0).getCantidad());
+        assertEquals(11L, descuentos.get(1).getProductoId());
+        assertEquals(1, descuentos.get(1).getCantidad());
+        verify(ventaRepository).save(venta);
+    }
+
+    @Test
     void crearVentaNoGuardaSiInventarioFalla() {
         Venta venta = ventaValida();
         org.mockito.Mockito.doThrow(new IllegalStateException("sin stock"))
@@ -105,6 +133,35 @@ class VentaServiceTest {
         assertSame(disponibilidad, resultado.getDisponibilidadProducto());
         assertSame(sucursal, resultado.getSucursal());
         verify(inventarioClient).descontarStock(any(DescuentoStockRequest.class));
+        verify(ventaRepository).save(venta);
+    }
+
+    @Test
+    void crearVentaConDetalleYVariosPerfumesRetornaTodosLosDetalles() {
+        Venta venta = ventaValida();
+        venta.setIdPerfume(null);
+        venta.setCantidad(null);
+        venta.setDetalles(List.of(
+                new VentaDetalle(null, null, 10L, 2L),
+                new VentaDetalle(null, null, 11L, 1L)));
+        Map<String, Object> sucursal = Map.of("id", 20L, "nombre", "Centro");
+        when(ventaRepository.save(venta)).thenReturn(venta);
+        when(datosExternosClient.obtenerPerfume(10L)).thenReturn(Map.of("id", 10L, "nombre", "Ambar"));
+        when(datosExternosClient.obtenerProducto(10L)).thenReturn(Map.of("id", 10L, "precio", 59990));
+        when(datosExternosClient.obtenerDisponibilidadProducto(10L)).thenReturn(Map.of("stock", 8));
+        when(datosExternosClient.obtenerPerfume(11L)).thenReturn(Map.of("id", 11L, "nombre", "Citrico"));
+        when(datosExternosClient.obtenerProducto(11L)).thenReturn(Map.of("id", 11L, "precio", 29990));
+        when(datosExternosClient.obtenerDisponibilidadProducto(11L)).thenReturn(Map.of("stock", 4));
+        when(datosExternosClient.obtenerSucursal(20L)).thenReturn(sucursal);
+
+        VentaDetalleResponse resultado = ventaService.crearVentaConDetalle(venta);
+
+        assertSame(venta, resultado.getVenta());
+        assertEquals(2, resultado.getDetalles().size());
+        assertEquals(10L, resultado.getDetalles().get(0).getIdPerfume());
+        assertEquals(11L, resultado.getDetalles().get(1).getIdPerfume());
+        assertSame(sucursal, resultado.getSucursal());
+        verify(inventarioClient, times(2)).descontarStock(any(DescuentoStockRequest.class));
         verify(ventaRepository).save(venta);
     }
 

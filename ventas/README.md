@@ -40,11 +40,37 @@ microservices.sucursal.obtener-url=http://localhost:8083/api/v1/sucursales/{id}
 - `PUT /api/v1/venta/{id}`
 - `DELETE /api/v1/venta/{id}`
 
+## Crear una venta con varios perfumes
+
+Use `detalles` para enviar todos los perfumes incluidos en la venta:
+
+```json
+{
+  "fechaVenta": "2026-07-15",
+  "totalVenta": 89980,
+  "descuentoVenta": 0,
+  "estadoVenta": "PAGADA",
+  "idSucursal": 1,
+  "detalles": [
+    {
+      "idPerfume": 1,
+      "cantidad": 2
+    },
+    {
+      "idPerfume": 2,
+      "cantidad": 1
+    }
+  ]
+}
+```
+
+El formato anterior con `idPerfume` y `cantidad` en la venta sigue funcionando para ventas de un solo perfume.
+
 ## Flujo al crear una venta
 
 1. Se reciben los datos de la venta.
 2. Se valida la informacion relacionada, como producto y sucursal.
-3. Se solicita a Inventario descontar el stock.
+3. Se solicita a Inventario descontar el stock de cada perfume del detalle.
 4. Si el descuento se realiza bien, la venta queda registrada.
 
 ## Ejecutar

@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
@@ -52,9 +53,8 @@ class VentaTest {
         assertTrue(errores.stream().anyMatch(error -> error.getPropertyPath().toString().equals("totalVenta")));
         assertTrue(errores.stream().anyMatch(error -> error.getPropertyPath().toString().equals("descuentoVenta")));
         assertTrue(errores.stream().anyMatch(error -> error.getPropertyPath().toString().equals("estadoVenta")));
-        assertTrue(errores.stream().anyMatch(error -> error.getPropertyPath().toString().equals("idPerfume")));
         assertTrue(errores.stream().anyMatch(error -> error.getPropertyPath().toString().equals("idSucursal")));
-        assertTrue(errores.stream().anyMatch(error -> error.getPropertyPath().toString().equals("cantidad")));
+        assertTrue(errores.stream().anyMatch(error -> error.getPropertyPath().toString().equals("detalleVentaValido")));
     }
 
     @Test
@@ -77,7 +77,8 @@ class VentaTest {
                 "PAGADA",
                 10L,
                 20L,
-                2L);
+                2L,
+                List.of());
 
         assertEquals(1L, venta.getIdVenta());
         assertEquals(LocalDate.of(2026, 6, 12), venta.getFechaVenta());
@@ -87,6 +88,7 @@ class VentaTest {
         assertEquals(10L, venta.getIdPerfume());
         assertEquals(20L, venta.getIdSucursal());
         assertEquals(2L, venta.getCantidad());
+        assertTrue(venta.getDetalles().isEmpty());
     }
 
     @Test
@@ -101,6 +103,7 @@ class VentaTest {
         venta.setIdPerfume(10L);
         venta.setIdSucursal(20L);
         venta.setCantidad(3L);
+        venta.setDetalles(List.of(new VentaDetalle(null, venta, 11L, 1L)));
 
         assertEquals(1L, venta.getIdVenta());
         assertEquals(LocalDate.of(2026, 6, 12), venta.getFechaVenta());
@@ -110,6 +113,22 @@ class VentaTest {
         assertEquals(10L, venta.getIdPerfume());
         assertEquals(20L, venta.getIdSucursal());
         assertEquals(3L, venta.getCantidad());
+        assertEquals(1, venta.getDetalles().size());
+        assertEquals(11L, venta.getDetalles().get(0).getIdPerfume());
+    }
+
+    @Test
+    void ventaConVariosDetallesNoTieneErroresDeValidacion() {
+        Venta venta = ventaValida();
+        venta.setIdPerfume(null);
+        venta.setCantidad(null);
+        venta.setDetalles(List.of(
+                new VentaDetalle(null, venta, 1L, 2L),
+                new VentaDetalle(null, venta, 2L, 1L)));
+
+        Set<ConstraintViolation<Venta>> errores = validator.validate(venta);
+
+        assertTrue(errores.isEmpty());
     }
 
     @Test

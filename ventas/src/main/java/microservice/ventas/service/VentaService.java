@@ -1,6 +1,8 @@
 package microservice.ventas.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,8 +11,10 @@ import jakarta.transaction.Transactional;
 import microservice.ventas.client.DatosExternosClient;
 import microservice.ventas.client.InventarioClient;
 import microservice.ventas.dto.DescuentoStockRequest;
+import microservice.ventas.dto.VentaDetalleItemResponse;
 import microservice.ventas.dto.VentaDetalleResponse;
 import microservice.ventas.model.Venta;
+import microservice.ventas.model.VentaDetalle;
 import microservice.ventas.repository.VentaRepository;
 
 
@@ -27,6 +31,7 @@ public class VentaService {
     private DatosExternosClient datosExternosClient;
 
     public Venta crearVenta(Venta venta) {
+        prepararDetalles(venta);
         descontarStockEnMicroservicios(venta);
         return ventaRepository.save(venta);
     }
@@ -54,6 +59,7 @@ public class VentaService {
         ventaExistente.setIdPerfume(venta.getIdPerfume());
         ventaExistente.setIdSucursal(venta.getIdSucursal());
         ventaExistente.setCantidad(venta.getCantidad());
+        reemplazarDetalles(ventaExistente, venta);
 
         return ventaRepository.save(ventaExistente);
     }
@@ -75,24 +81,88 @@ public class VentaService {
     }
 
     private void descontarStockEnMicroservicios(Venta venta) {
-        DescuentoStockRequest request = new DescuentoStockRequest(
-                null,
-                venta.getIdPerfume(),
-                venta.getIdSucursal(),
-                null,
-                venta.getIdVenta(),
-                venta.getCantidad().intValue());
+        for (VentaDetalle detalle : venta.getDetalles()) {
+            DescuentoStockRequest request = new DescuentoStockRequest(
+                    null,
+                    detalle.getIdPerfume(),
+                    venta.getIdSucursal(),
+                    null,
+                    venta.getIdVenta(),
+                    detalle.getCantidad().intValue());
 
-        inventarioClient.descontarStock(request);
+            inventarioClient.descontarStock(request);
+        }
     }
 
     private VentaDetalleResponse construirDetalle(Venta venta) {
+        prepararDetalles(venta);
+        List<VentaDetalleItemResponse> detalles = venta.getDetalles().stream()
+                .map(this::construirDetalleItem)
+                .toList();
+        VentaDetalleItemResponse primerDetalle = detalles.get(0);
+
         return new VentaDetalleResponse(
                 venta,
-                datosExternosClient.obtenerPerfume(venta.getIdPerfume()),
-                datosExternosClient.obtenerProducto(venta.getIdPerfume()),
-                datosExternosClient.obtenerDisponibilidadProducto(venta.getIdPerfume()),
-                datosExternosClient.obtenerSucursal(venta.getIdSucursal()));
+                primerDetalle.getPerfume(),
+                primerDetalle.getProducto(),
+                primerDetalle.getDisponibilidadProducto(),
+                datosExternosClient.obtenerSucursal(venta.getIdSucursal()),
+                detalles);
+    }
+
+    private VentaDetalleItemResponse construirDetalleItem(VentaDetalle detalle) {
+        Map<String, Object> perfume = datosExternosClient.obtenerPerfume(detalle.getIdPerfume());
+        Map<String, Object> producto = datosExternosClient.obtenerProducto(detalle.getIdPerfume());
+        Map<String, Object> disponibilidad = datosExternosClient.obtenerDisponibilidadProducto(detalle.getIdPerfume());
+
+        return new VentaDetalleItemResponse(
+                detalle.getIdPerfume(),
+                detalle.getCantidad(),
+                perfume,
+                producto,
+                disponibilidad);
+    }
+
+    private void prepararDetalles(Venta venta) {
+        if (venta.getDetalles() == null) {
+            venta.setDetalles(new ArrayList<>());
+        }
+
+        if (venta.getDetalles().isEmpty() && venta.getIdPerfume() != null && venta.getCantidad() != null) {
+            venta.getDetalles().add(new VentaDetalle(null, venta, venta.getIdPerfume(), venta.getCantidad()));
+        }
+
+        if (venta.getDetalles().isEmpty()) {
+            throw new IllegalArgumentException("Debe ingresar al menos un perfume en el detalle de la venta");
+        }
+
+        for (VentaDetalle detalle : venta.getDetalles()) {
+            if (detalle.getIdPerfume() == null) {
+                throw new IllegalArgumentException("El perfume es obligatorio");
+            }
+            if (detalle.getCantidad() == null || detalle.getCantidad() <= 0) {
+                throw new IllegalArgumentException("La cantidad debe ser mayor a cero");
+            }
+            detalle.setVenta(venta);
+        }
+
+        VentaDetalle primerDetalle = venta.getDetalles().get(0);
+        venta.setIdPerfume(primerDetalle.getIdPerfume());
+        venta.setCantidad(primerDetalle.getCantidad());
+    }
+
+    private void reemplazarDetalles(Venta ventaExistente, Venta ventaNueva) {
+        ventaExistente.getDetalles().clear();
+        if (ventaNueva.getDetalles() != null) {
+            for (VentaDetalle detalle : ventaNueva.getDetalles()) {
+                ventaExistente.getDetalles().add(new VentaDetalle(
+                        null,
+                        ventaExistente,
+                        detalle.getIdPerfume(),
+                        detalle.getCantidad()));
+            }
+        }
+        prepararDetalles(ventaExistente);
     }
 
 }
